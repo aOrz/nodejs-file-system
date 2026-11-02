@@ -196,7 +196,7 @@ module.exports = class File extends Block {
 	// 修改权限
 	chmod(name,Permissions,userId){
 		let index = this.getInode(name);
-		if (index&&(this.file[index].author == userId||this.file[index].author == 'root')) {
+		if (index&&(this.file[index].author == userId||userId == 'root')) {
 			this.file[index].Permissions = Permissions;
 			return false;
 		}else{
