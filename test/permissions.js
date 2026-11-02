@@ -1,0 +1,13 @@
+const assert = require('assert');
+const File = require('../class/file.class');
+const file = new File();
+file.createFile('root-file', 'file', 'root');
+file.createFile('alice-file', 'file', 'alice');
+assert.strictEqual(file.chmod('root-file', 77, 'bob'), '没有权限修改');
+assert.strictEqual(file.file[file.getInode('root-file')].Permissions, 75);
+assert.strictEqual(file.chmod('alice-file', 70, 'root'), false);
+assert.strictEqual(file.chmod('alice-file', 71, 'alice'), false);
+assert.strictEqual(file.chmod('alice-file', 77, 'bob'), '没有权限修改');
+assert.strictEqual(file.file[file.getInode('alice-file')].Permissions, 71);
+assert.strictEqual(file.chmod('missing', 77, 'root'), '没有权限修改');
+console.log('chmod permission regression tests passed');
